@@ -1,0 +1,2 @@
+<?php
+namespace App\Filament\Resources\SavedAssetSearches\Pages; use App\Filament\Resources\SavedAssetSearches\SavedAssetSearchResource; use Filament\Actions\CreateAction; use Filament\Resources\Pages\ListRecords; class ListSavedAssetSearches extends ListRecords {protected static string $resource=SavedAssetSearchResource::class; protected function getHeaderActions():array{return [CreateAction::make()->label('Νέα αναζήτηση')];}}

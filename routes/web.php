@@ -1,7 +1,42 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\AssetRegisterController;
+use App\Http\Controllers\AssetQrCodeController;
+use App\Http\Controllers\InventoryScanController;
+use App\Http\Controllers\InventoryDeviationController;
+use App\Http\Controllers\AssetLifecycleController;
+use App\Http\Controllers\AssetDocumentDownloadController;
+use App\Http\Controllers\DepreciationReportController;
+use App\Http\Controllers\AssetMovementProtocolController;
+use App\Http\Controllers\MaintenanceReportController;
+use App\Http\Controllers\MaintenanceWorkOrderController;
+use App\Http\Controllers\AssetImportController;
+use App\Http\Controllers\AssetDossierController;
+use App\Http\Controllers\SystemBackupController;
 
-Route::get('/', function () {
-    return view('welcome');
-});
+Route::redirect('/', '/admin');
+Route::get('/mitroo-pagion.pdf', [AssetRegisterController::class, 'pdf'])->middleware('auth')->name('assets.register.pdf');
+Route::get('/pagia/{asset}/qr-code', [AssetQrCodeController::class, 'show'])->middleware('auth')->name('assets.qr-code');
+Route::get('/pagia/{asset}/istoriko-kyklou-zois', [AssetLifecycleController::class, 'show'])->middleware('auth')->name('assets.lifecycle');
+Route::get('/pagia/{asset}/fakelos.pdf', [AssetDossierController::class, 'pdf'])->middleware('auth')->name('assets.dossier.pdf');
+Route::get('/pagia/{asset}/fakelos.zip', [AssetDossierController::class, 'zip'])->middleware('auth')->name('assets.dossier.zip');
+Route::get('/antigrafa-asfaleias/{backup}/lipsi', [SystemBackupController::class, 'download'])->middleware('auth')->name('system-backups.download');
+Route::get('/dikaiologitika/{document}/arxeio', [AssetDocumentDownloadController::class, 'document'])->middleware('auth')->name('asset-documents.download');
+Route::get('/synallages-pagion/{transaction}/arxeio', [AssetDocumentDownloadController::class, 'transaction'])->middleware('auth')->name('asset-transactions.download');
+Route::get('/asfaliseis-pagion/{insurance}/arxeio', [AssetDocumentDownloadController::class, 'insurance'])->middleware('auth')->name('asset-insurances.download');
+Route::get('/apografi/{cycle}/sarosi', [InventoryScanController::class, 'show'])->middleware('auth')->name('inventory.scan');
+Route::post('/apografi/{cycle}/sarosi', [InventoryScanController::class, 'store'])->middleware('auth')->name('inventory.scan.store');
+Route::post('/apografi/{cycle}/sygchronismos', [InventoryScanController::class, 'sync'])->middleware('auth')->name('inventory.scan.sync');
+Route::get('/apografi/{cycle}/apokliseis', [InventoryDeviationController::class, 'show'])->middleware('auth')->name('inventory.deviations');
+Route::post('/apografi/{cycle}/oristikopoiisi', [InventoryDeviationController::class, 'complete'])->middleware('auth')->name('inventory.complete');
+Route::get('/apoveseis/anafores', [DepreciationReportController::class, 'index'])->middleware('auth')->name('depreciation.reports');
+Route::get('/metakiniseis-pagion/{movement}/protokollo', [AssetMovementProtocolController::class, 'show'])->middleware('auth')->name('asset-movements.protocol');
+Route::get('/syntiriseis/anafores', [MaintenanceReportController::class, 'index'])->middleware('auth')->name('maintenance.reports');
+Route::get('/syntiriseis/{maintenance}/deltio-ergasias', [MaintenanceWorkOrderController::class, 'show'])->middleware('auth')->name('maintenance.work-order');
+Route::get('/symvaseis/{contract}/arxeio', [AssetDocumentDownloadController::class, 'procurementContract'])->middleware('auth')->name('procurement-contracts.download');
+Route::get('/eisagogi-pagion', [AssetImportController::class, 'index'])->middleware('auth')->name('assets.import');
+Route::get('/eisagogi-pagion/protypo', [AssetImportController::class, 'template'])->middleware('auth')->name('assets.import.template');
+Route::post('/eisagogi-pagion/proepiskopisi', [AssetImportController::class, 'preview'])->middleware('auth')->name('assets.import.preview');
+Route::post('/eisagogi-pagion/ektelesi', [AssetImportController::class, 'store'])->middleware('auth')->name('assets.import.store');
+Route::get('/eisagogi-pagion/apotelesma', [AssetImportController::class, 'report'])->middleware('auth')->name('assets.import.report');

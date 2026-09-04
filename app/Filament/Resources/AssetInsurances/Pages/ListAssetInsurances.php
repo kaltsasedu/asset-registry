@@ -1,0 +1,2 @@
+<?php
+namespace App\Filament\Resources\AssetInsurances\Pages;use App\Filament\Resources\AssetInsurances\AssetInsuranceResource;use Filament\Actions\CreateAction;use Filament\Resources\Pages\ListRecords;class ListAssetInsurances extends ListRecords{protected static string $resource=AssetInsuranceResource::class;protected function getHeaderActions():array{return [CreateAction::make()->label('Νέο ασφαλιστήριο')];}}

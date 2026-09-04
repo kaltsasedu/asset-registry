@@ -1,0 +1,2 @@
+<?php
+namespace App\Filament\Resources\SavedAssetSearches\Pages; use App\Filament\Resources\SavedAssetSearches\SavedAssetSearchResource; use Filament\Resources\Pages\CreateRecord; class CreateSavedAssetSearch extends CreateRecord {protected static string $resource=SavedAssetSearchResource::class; protected function mutateFormDataBeforeCreate(array $data):array{$data['user_id']=auth()->id();return $data;}}
